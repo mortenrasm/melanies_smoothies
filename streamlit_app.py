@@ -18,12 +18,16 @@ my_dataframe = session.table("smoothies.public.fruit_options").select(
 )
 pd_df = my_dataframe.to_pandas()
 
-# Use pandas column for multiselect options
+# After converting to pandas, normalize column names
+pd_df.columns = pd_df.columns.str.lower()
+
+# Use lowercase column names
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:',
-    pd_df['fruit_name'].tolist(),  # Fix: Use pandas column
+    pd_df['fruit_name'].tolist(),
     max_selections=5
 )
+
 
 if ingredients_list:
     ingredients_string = ' '.join(ingredients_list)
